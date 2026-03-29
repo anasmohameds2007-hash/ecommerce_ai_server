@@ -35,7 +35,11 @@ router.get('/google/callback',
     // Redirect to frontend with token
     const token = req.user.token;
     const user = req.user.toPublicProfile();
-    res.redirect(`http://localhost:3000/auth/google/callback?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+    // Use production URL in production, localhost in development
+    const frontendUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://ecommerce-ai-client-34te.vercel.app'  // Updated Vercel URL
+      : 'http://localhost:3000';
+    res.redirect(`${frontendUrl}/auth/google/callback?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
   }
 );
 
